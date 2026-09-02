@@ -35,4 +35,9 @@ jobs:
         with:
           workspaces: .ci/rozi
       - name: Validate extension manifest
-        run: cargo run --manifest-path .ci/rozi/Cargo.toml --bin rozi -- extensions check "$GITHUB_WORKSPACE"
+        run: |
+          rozi=(cargo run --manifest-path .ci/rozi/Cargo.toml --bin rozi --)
+          if "${rozi[@]}" extensions check "$GITHUB_WORKSPACE"; then
+            exit 0
+          fi
+          "${rozi[@]}" check-extension "$GITHUB_WORKSPACE"
