@@ -2,9 +2,25 @@
 id = "vim-rozi-navigator"
 title = "Vim and Neovim navigator"
 description = "Split-aware navigation policy for the Vim and Neovim editor plugin"
-version = "0.1.0"
+version = "0.2.0"
 api = 1
 
 [[navigation_targets]]
 name = "vim"
 programs = ["vim", "nvim", "vi", "view", "vimdiff", "nvim-wrapped"]
+
+[[suggested_keybindings]]
+action = "smart-focus-left"
+key = "ctrl-h"
+
+[[suggested_keybindings]]
+action = "smart-focus-down"
+key = "ctrl-j"
+
+[[suggested_keybindings]]
+action = "smart-focus-up"
+key = "ctrl-k"
+
+[[suggested_keybindings]]
+action = "smart-focus-right"
+key = "ctrl-l"

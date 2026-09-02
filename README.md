@@ -9,7 +9,22 @@ Seamless navigation between Vim/Neovim splits and rozi panes.
 
 ## Install
 
-Enable rozi's split-aware bindings in `~/.config/rozi/config.toml`:
+### Register with Rozi
+
+Install the extension manifest from this repository. It registers Vim-family foreground programs
+and suggests `Ctrl-h/j/k/l` for Rozi's split-aware focus actions:
+
+```bash
+rozi extensions install https://github.com/tui-lipan/vim-rozi-navigator.git
+rozi run-action reload-extensions
+```
+
+Later releases can be applied with `rozi extensions update vim-rozi-navigator`.
+
+Suggested bindings are best-effort. Explicit `[keys]` configuration and Rozi's core defaults win;
+conflicts are shown in the Extensions picker and `rozi extensions list --verbose` without disabling
+the integration. To override a conflict or keep the keys when this extension is disabled, bind the
+actions explicitly:
 
 ```toml
 [keys]
@@ -19,21 +34,11 @@ smart-focus-up = "ctrl-k"
 smart-focus-right = "ctrl-l"
 ```
 
-### Register with Rozi
+An explicit empty binding, such as `smart-focus-left = []`, suppresses that suggestion.
 
-Install the extension manifest from this repository:
-
-```bash
-rozi extensions install https://github.com/tui-lipan/vim-rozi-navigator.git
-rozi run-action reload-extensions
-```
-
-Later releases can be applied with `rozi extensions update vim-rozi-navigator`.
-
-The manifest contributes the Vim-family foreground program names. Rozi currently ships the same
-common names as compatibility defaults, so identical registrations are deduplicated. If
-`[navigation] editors` appears in `config.toml`, that explicit list replaces both defaults and
-extension targets.
+Rozi currently ships the same common foreground program names as compatibility defaults, so
+identical registrations are deduplicated. If `[navigation] editors` appears in `config.toml`, that
+explicit list replaces both defaults and extension targets.
 
 ### Install the Vim or Neovim plugin
 
@@ -68,10 +73,10 @@ The defaults are `Ctrl-h/j/k/l` for left/down/up/right and `Ctrl-\` for the prev
 pane. Directional mappings also work in Vim/Neovim terminal mode.
 
 The repository contains two independently installed parts. `extension.toml` teaches Rozi which
-foreground programs are split-aware; `plugin/` and `doc/` teach Vim how to cross an outer split
-edge. Rozi compiles the static manifest declaration when extensions load, while the editor plugin
-crosses the edge through Rozi's public `run-action` CLI. No extension process or callback runs in
-the key-input path.
+foreground programs are split-aware and proposes the activation keys; `plugin/` and `doc/` teach
+Vim how to cross an outer split edge. Rozi compiles those static declarations when extensions load,
+while the editor plugin crosses the edge through Rozi's public `run-action` CLI. No extension
+process or callback runs in the key-input path.
 
 ## Configuration
 
