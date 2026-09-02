@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  vim:
+    name: Vim plugin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Load plugin and verify commands
+        run: vim -Nu NONE -n -es -S tests/smoke.vim
+      - name: Verify help tags
+        run: |
+          vim -Nu NONE -n -es +'helptags doc' +quitall
+          git diff --exit-code -- doc/tags
+
+  extension:
+    name: Rozi extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: tui-lipan/rozi
+          path: .ci/rozi
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: .ci/rozi
+      - name: Validate extension manifest
+        run: cargo run --manifest-path .ci/rozi/Cargo.toml -- extensions check "$GITHUB_WORKSPACE"

@@ -2,7 +2,12 @@
 
 Seamless navigation between Vim/Neovim splits and rozi panes.
 
-## Setup
+## Requirements
+
+- Vim 8.0+ or Neovim
+- Rozi with extension API 1 support
+
+## Install
 
 Enable rozi's split-aware bindings in `~/.config/rozi/config.toml`:
 
@@ -14,15 +19,16 @@ smart-focus-up = "ctrl-k"
 smart-focus-right = "ctrl-l"
 ```
 
-### Register the Rozi extension
+### Register with Rozi
 
-Register this checkout as a linked development extension:
+Install the extension manifest from this repository:
 
 ```bash
-rozi extensions check "/absolute/path/to/rozi/integrations/vim-rozi-navigator"
-rozi extensions install --link "/absolute/path/to/rozi/integrations/vim-rozi-navigator"
+rozi extensions install https://github.com/tui-lipan/vim-rozi-navigator.git
 rozi run-action reload-extensions
 ```
+
+Later releases can be applied with `rozi extensions update vim-rozi-navigator`.
 
 The manifest contributes the Vim-family foreground program names. Rozi currently ships the same
 common names as compatibility defaults, so identical registrations are deduplicated. If
@@ -31,20 +37,20 @@ extension targets.
 
 ### Install the Vim or Neovim plugin
 
-Registering the Rozi extension does not install the editor plugin. Install this same repository
-through Vim's package mechanism. For example, from a Rozi checkout:
+Registering the Rozi extension does not install the editor plugin. Install this repository
+separately with your Vim or Neovim plugin manager.
 
-```bash
-ln -s "$PWD/integrations/vim-rozi-navigator" \
-  ~/.vim/pack/plugins/start/vim-rozi-navigator
+With vim-plug:
+
+```vim
+Plug 'tui-lipan/vim-rozi-navigator'
 ```
 
 For Neovim with lazy.nvim:
 
 ```lua
 {
-  dir = "/path/to/rozi/integrations/vim-rozi-navigator",
-  name = "vim-rozi-navigator",
+  "tui-lipan/vim-rozi-navigator",
   keys = {
     { "<C-h>", "<cmd>RoziNavigateLeft<cr>", mode = "n" },
     { "<C-j>", "<cmd>RoziNavigateDown<cr>", mode = "n" },
@@ -94,3 +100,20 @@ inside rozi, the commands continue to work as ordinary split navigation.
 
 Run `:RoziNavigatorCheck` inside rozi to print the active mapping and environment and send a
 test `focus-left` request through the control socket.
+
+## Development
+
+```bash
+git clone https://github.com/tui-lipan/vim-rozi-navigator.git
+cd vim-rozi-navigator
+rozi extensions check .
+rozi extensions install --link .
+vim -Nu NONE -n -es -S tests/smoke.vim
+```
+
+The Rozi manifest and Vim plugin intentionally use public interfaces only. Keep the manifest valid
+against extension API 1 and avoid depending on Rozi's internal state or socket protocol.
+
+## License
+
+Mozilla Public License 2.0. See [LICENSE](LICENSE).
