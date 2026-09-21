@@ -5,7 +5,7 @@ Seamless navigation between Vim/Neovim splits and rozi panes.
 ## Requirements
 
 - Vim 8.0+ or Neovim
-- Rozi with extension API 1 support
+- Rozi 0.0.16 or newer
 
 ## Install
 

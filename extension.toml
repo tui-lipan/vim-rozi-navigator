@@ -2,8 +2,10 @@
 id = "vim-rozi-navigator"
 title = "Vim and Neovim navigator"
 description = "Split-aware navigation policy for the Vim and Neovim editor plugin"
-version = "0.2.0"
+version = "0.2.1"
 api = 1
+min_rozi = "0.0.16"
+homepage = "https://github.com/tui-lipan/vim-rozi-navigator"
 
 [[navigation_targets]]
 name = "vim"
