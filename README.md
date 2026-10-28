@@ -2,10 +2,12 @@
 
 Seamless navigation between Vim/Neovim splits and rozi panes.
 
+![Neovim splits beside rozi panes, with the Ctrl+H/J/K/L keys the extension suggests](docs/screenshot.webp)
+
 ## Requirements
 
 - Vim 8.0+ or Neovim
-- Rozi 0.0.16 or newer
+- Rozi 0.0.36 or newer
 
 ## Install
 
